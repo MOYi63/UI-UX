@@ -1,0 +1,47 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Outfit", sans-serif;
+}
+
+@layer base {
+  body {
+    @apply bg-[#F9F9F9] text-[#1A1A1A] antialiased selection:bg-indigo-100;
+  }
+}
+
+@layer utilities {
+  .glass-panel {
+    @apply bg-white border border-[#E5E5E5] shadow-[0_2px_12px_rgba(0,0,0,0.04)];
+  }
+  
+  .gradient-text {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600;
+  }
+
+  .premium-card {
+    @apply relative overflow-hidden rounded-3xl transition-all duration-500 hover:shadow-[0_8px_30px_rgba(0,0,0,0.08)] border border-[#E5E5E5];
+  }
+
+  .sidebar-item {
+    @apply flex items-center gap-3 px-4 py-2.5 rounded-xl text-[#666666] hover:text-[#1A1A1A] hover:bg-[#EBEBEB] transition-all duration-200;
+  }
+
+  .sidebar-item-active {
+    @apply bg-[#EBEBEB] text-[#1A1A1A] font-medium;
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 5px;
+}
+::-webkit-scrollbar-track {
+  @apply bg-transparent;
+}
+::-webkit-scrollbar-thumb {
+  @apply bg-slate-300 rounded-full hover:bg-slate-400 transition-colors;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@500;600;700&display=swap');
