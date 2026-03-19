@@ -18,6 +18,7 @@ export const ExportModal: React.FC<ExportModalProps> = ({ isOpen, onClose, resul
     includeAccessibility: true,
     includeVisualHierarchy: true,
     includeActionItems: true,
+    includeHeatmap: true,
   });
 
   const [isExporting, setIsExporting] = useState(false);
@@ -45,6 +46,7 @@ export const ExportModal: React.FC<ExportModalProps> = ({ isOpen, onClose, resul
       includeAccessibility: !allSelected,
       includeVisualHierarchy: !allSelected,
       includeActionItems: !allSelected,
+      includeHeatmap: !allSelected,
     });
   };
 
@@ -53,6 +55,7 @@ export const ExportModal: React.FC<ExportModalProps> = ({ isOpen, onClose, resul
     { key: 'includeAccessibility', label: '无障碍性审计', desc: '包含 WCAG 合规性检查、问题及改进建议' },
     { key: 'includeVisualHierarchy', label: '视觉层级分析', desc: '包含视线流向与视觉重点的深度解读' },
     { key: 'includeActionItems', label: '关键优化清单', desc: '包含可落地的具体改进步骤' },
+    { key: 'includeHeatmap', label: '点击热区模拟', desc: '包含基于 AI 模拟的用户点击分布图' },
   ] as const;
 
   const allSelected = Object.values(options).every(Boolean);

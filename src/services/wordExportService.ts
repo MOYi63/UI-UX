@@ -7,6 +7,7 @@ export interface ExportOptions {
   includeAccessibility: boolean;
   includeVisualHierarchy: boolean;
   includeActionItems: boolean;
+  includeHeatmap: boolean;
 }
 
 /**
@@ -165,6 +166,33 @@ export async function downloadAnalysisAsWord(result: AnalysisResult, options: Ex
         ],
         spacing: { before: 100 },
       }))
+    );
+  }
+
+  if (options.includeHeatmap && result.heatmapPoints && result.heatmapPoints.length > 0) {
+    // Sort points by intensity to find top focus areas
+    const topPoints = [...result.heatmapPoints]
+      .sort((a, b) => b.intensity - a.intensity)
+      .slice(0, 5);
+
+    children.push(
+      new Paragraph({
+        text: "5. 点击热区模拟分析",
+        heading: HeadingLevel.HEADING_2,
+        spacing: { before: 400, after: 200 },
+      }),
+      new Paragraph({
+        text: "基于 AI 视觉模型的模拟结果显示，用户最可能关注并产生交互的区域如下：",
+        spacing: { after: 100 },
+      }),
+      ...topPoints.map((point, index) => new Paragraph({
+        text: `• 重点区域 ${index + 1}: 坐标 (${Math.round(point.x/10)}%, ${Math.round(point.y/10)}%) - 交互意愿指数: ${(point.intensity * 100).toFixed(0)}%`,
+        spacing: { before: 50 },
+      })),
+      new Paragraph({
+        text: "注：热区分布反映了界面视觉引导的有效性。高密度区域通常对应核心功能入口或视觉重心。",
+        spacing: { before: 200 },
+      })
     );
   }
 

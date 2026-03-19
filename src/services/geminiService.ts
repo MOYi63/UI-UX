@@ -49,6 +49,11 @@ export interface AnalysisResult {
     task: string;
     location?: [number, number, number, number];
   }[];
+  heatmapPoints?: {
+    x: number;
+    y: number;
+    intensity: number; // 0-1
+  }[];
 }
 
 /**
@@ -121,6 +126,9 @@ export async function analyzeDesign(
       - **suggestions**: 改进建议。
     - **visualHierarchy**: 一段专业的视线流向分析和层级评价。
     - **keyActionItems**: 至少 4 条具有高度可操作性的改进建议，包含任务描述 **task** 和对应的准确 **location**。
+    - **heatmapPoints**: 基于可用性测试模拟，生成一组用户最可能点击或关注的坐标点。
+      - 每个点包含 **x**, **y** (0-1000) 和 **intensity** (0-1，代表点击频率或关注度)。
+      - 请生成至少 20 个点，集中在核心交互元素（如按钮、导航、搜索框）周围。
     
     **所有文本内容必须使用中文，语气应专业、权威且富有洞察力。**
   `;
@@ -190,9 +198,21 @@ export async function analyzeDesign(
               },
               required: ["task"]
             } 
+          },
+          heatmapPoints: {
+            type: Type.ARRAY,
+            items: {
+              type: Type.OBJECT,
+              properties: {
+                x: { type: Type.NUMBER },
+                y: { type: Type.NUMBER },
+                intensity: { type: Type.NUMBER }
+              },
+              required: ["x", "y", "intensity"]
+            }
           }
         },
-        required: ["overallScore", "heuristics", "accessibility", "visualHierarchy", "keyActionItems"]
+        required: ["overallScore", "heuristics", "accessibility", "visualHierarchy", "keyActionItems", "heatmapPoints"]
       }
     }
   });
